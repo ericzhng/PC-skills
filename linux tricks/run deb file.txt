@@ -1,0 +1,18 @@
+When you use apt to install a package, internally it uses dpkg. When you install a package using apt, it first creates a list of all the dependencies and downloads it from the repository.
+
+Once the download is finished it calls dpkg to install all those files, satisfying all the dependencies.
+
+So if you have a .deb file:
+
+    You can install it using sudo dpkg -i /path/to/deb/file followed by sudo apt-get install -f.
+
+    You can install it using sudo apt install ./name.deb (or /path/to/package/name.deb).
+    With old apt-get versions you must first move your deb file to /var/cache/apt/archives/ directory. For both, after executing this command, it will automatically download its dependencies.
+
+    Install gdebi and open your .deb file using it (Right-click -> Open with). It will install your .deb package with all its dependencies.
+
+    (Note: APT maintains the package index which is a database of available packages available in repo defined in /etc/apt/sources.list file and in the /etc/apt/sources.list.d directory. All these methods will fail to satisfy the software dependency if the dependencies required by the deb is not present in the package index.)
+
+Why to use sudo apt-get install -f after sudo dpkg -i /path/to/deb/file (mentioned in first method).
+
+

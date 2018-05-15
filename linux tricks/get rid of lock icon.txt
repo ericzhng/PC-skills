@@ -1,0 +1,17 @@
+1) for lock icon
+
+sudo su
+
+chmod a+rwx matlab_R2018.zip
+
+
+2) for executable permission
+
+chmod +x ./UMLISA
+
+
+3) for all files in a folder
+
+chmod a+rwx -R matlab
+
+
