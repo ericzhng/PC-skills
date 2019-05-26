@@ -1,0 +1,13 @@
+When Win10 and ubuntu are used together, such as using dual system or WSL in windows;
+File systems sometimes can be confused and resulting in "Directory not empty” error.
+
+Tried to delete in Windows and WSL, both didn't work.
+
+Now the solution is:
+
+switch to windows cmd, and run
+
+chkdsk
+chkdsk /F
+
+After the commands finish, you should be able to delete the files safely.
