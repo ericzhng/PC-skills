@@ -1,0 +1,22 @@
+B. Using binary files (cmake-gui wont work well)
+B-1. Uninstall the default version provided by Ubuntu's package manager as in A-1.
+https://askubuntu.com/questions/355565/how-do-i-install-the-latest-version-of-cmake-from-the-command-line/865294
+B-2. Go to the official CMake webpage, then download and install the latest .sh version in opt/cmake. Update the version and build variables in the following command to get the desired version:
+
+version=3.14
+build=5
+mkdir ~/temp
+cd ~/temp
+wget https://cmake.org/files/v$version/cmake-$version.$build-Linux-x86_64.sh 
+sudo mkdir /opt/cmake
+sudo sh cmake-$version.$build-Linux-x86_64.sh --prefix=/opt/cmake
+B-3. Add the installed binary link to /usr/local/bin/cmake by running this:
+
+sudo ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+B-4. Test your new cmake version as in A-4.
+
+Note
+In 3.14.X the X represents the last part of the version that we defined as build. The build may change if cmake is updated. According to the official webpage the Latest Release is 3.14.5. If you want the Previous Release 3.13.5 just replace the version and build parameters like this:
+
+version=3.13
+build=5

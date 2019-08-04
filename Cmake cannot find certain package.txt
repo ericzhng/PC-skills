@@ -1,0 +1,17 @@
+this happens sometimes mainly when you don't have certain package installed
+
+Looking for STARPU - not found using PkgConfig.
+   Perhaps you should add the directory containing libstarpu.pc
+   to the PKG_CONFIG_PATH environment variable.
+CMake Error at cmake_modules/morse_cmake/modules/find/FindSTARPU.cmake:442 (message):
+  starpu_config.h has not been found while required to get StarPU version
+Call Stack (most recent call first):
+  CMakeLists.txt:619 (find_package)
+  
+$ sudo apt-get install libstarpu-1.3 libstarpu-dev
+http://starpu.gforge.inria.fr/#software
+
+you can just add/install such package in ubuntu in root folder to get it work perfect with cmake
+
+
+If you can't find certain package, then define some macros, and comment the find_package.

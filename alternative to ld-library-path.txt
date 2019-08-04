@@ -1,0 +1,65 @@
+https://stackoverflow.com/questions/2726993/how-to-specify-preference-of-library-path
+https://stackoverflow.com/questions/8835108/how-to-specify-non-default-shared-library-path-in-gcc-linux-getting-error-whil
+https://homepages.inf.ed.ac.uk/imurray2/compnotes/library_linking.txt
+
+
+
+Specifying the absolute path to the library should work fine:
+
+g++ /my/dir/libfoo.so.0  ...
+Did you remember to remove the -lfoo once you added the absolute path?
+
+
+There are two ways to achieve that:
+
+Use -rpath linker option:
+gcc XXX.c -o xxx.out -L$HOME/.usr/lib -lXX -Wl,-rpath=/home/user/.usr/lib
+
+Use LD_LIBRARY_PATH environment variable - put this line in your ~/.bashrc file:
+
+export LD_LIBRARY_PATH=/home/user/.usr/lib
+
+This will work even for a pre-generated binaries, so you can for example download some packages from the debian.org, unpack the binaries and shared libraries into your home directory, and launch them without recompiling.
+
+For a quick test, you can also do (in bash at least):
+
+LD_LIBRARY_PATH=/home/user/.usr/lib ./xxx.out
+
+
+Add the path to where your new library is to LD_LIBRARY_PATH (it has slightly different name on Mac ...)
+
+Your solution should work with using the -L/my/dir -lfoo options, at runtime use LD_LIBRARY_PATH to point to the location of your library.
+
+Careful with using LD_LIBRARY_PATH - in short (from link):
+
+..implications..:
+Security: Remember that the directories specified in LD_LIBRARY_PATH get searched before(!) the standard locations? In that way, a nasty person could get your application to load a version of a shared library that contains malicious code! That’s one reason why setuid/setgid executables do neglect that variable!
+Performance: The link loader has to search all the directories specified, until it finds the directory where the shared library resides – for ALL shared libraries the application is linked against! This means a lot of system calls to open(), that will fail with “ENOENT (No such file or directory)”! If the path contains many directories, the number of failed calls will increase linearly, and you can tell that from the start-up time of the application. If some (or all) of the directories are in an NFS environment, the start-up time of your applications can really get long – and it can slow down the whole system!
+Inconsistency: This is the most common problem. LD_LIBRARY_PATH forces an application to load a shared library it wasn’t linked against, and that is quite likely not compatible with the original version. This can either be very obvious, i.e. the application crashes, or it can lead to wrong results, if the picked up library not quite does what the original version would have done. Especially the latter is sometimes hard to debug.
+
+OR
+
+Use the rpath option via gcc to linker - runtime library search path, will be used instead of looking in standard dir (gcc option):
+
+-Wl,-rpath,$(DEFAULT_LIB_INSTALL_PATH)
+This is good for a temporary solution. Linker first searches the LD_LIBRARY_PATH for libraries before looking into standard directories.
+
+If you don't want to permanently update LD_LIBRARY_PATH you can do it on the fly on command line:
+
+LD_LIBRARY_PATH=/some/custom/dir ./fooo
+You can check what libraries linker knows about using (example):
+
+/sbin/ldconfig -p | grep libpthread
+        libpthread.so.0 (libc6, OS ABI: Linux 2.6.4) => /lib/libpthread.so.0
+And you can check which library your application is using:
+
+ldd foo
+        linux-gate.so.1 =>  (0xffffe000)
+        libpthread.so.0 => /lib/libpthread.so.0 (0xb7f9e000)
+        libxml2.so.2 => /usr/lib/libxml2.so.2 (0xb7e6e000)
+        librt.so.1 => /lib/librt.so.1 (0xb7e65000)
+        libm.so.6 => /lib/libm.so.6 (0xb7d5b000)
+        libc.so.6 => /lib/libc.so.6 (0xb7c2e000)
+        /lib/ld-linux.so.2 (0xb7fc7000)
+        libdl.so.2 => /lib/libdl.so.2 (0xb7c2a000)
+        libz.so.1 => /lib/libz.so.1 (0xb7c18000)

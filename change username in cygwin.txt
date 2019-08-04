@@ -1,0 +1,20 @@
+For people starting with a clean Cygwin installation an approach might be to create new /etc/passwd file (it does not exist per default in current Cygwin versions) using mkpasswd -l >/etc/passwd which will create an entry for every user (add -b to omit the built-in users or just -c to only create an entry for the current user, see https://cygwin.com/cygwin-ug-net/mkpasswd.html).
+
+Next, simply open /etc/passwd rename the account in there (first column).
+
+See https://cygwin.com/cygwin-ug-net/ntsec.html for a description of how Cygwin handles the mapping between "Cygwin" and Windows user. Oh and there is also a mkgroup that can be used similarly, see https://cygwin.com/cygwin-ug-net/mkgroup.html.
+
+You will see that creating is not officially recommended but from my experience it has not caused any problems, maybe it could if you would do quite advanced stuff involving user/group rights or if you didn't keep it up-to-date when you change the Windows users.
+
+
+
+
+
+
+
+
+
+simply replacing names in /etc/passwd. later on restart cygwin terminal.
+
+
+

@@ -1,0 +1,21 @@
+http://www.ieor.iitb.ac.in/files/faculty/amahajan/howtos/too_many_levels.html
+
+
+How to solve Too many levels of symbolic links
+Many times, due to some bugs in software packages or one's own misadventures, one may end up getting messages like:
+
+Too many levels of symbolic links
+Creating soft links that point to themselves, for instance, may cause this error. The author once had a link like:
+cd /usr/local
+ls -l /usr/local/xpress
+
+lrwxrwxrwx 1 root staff 12 2007-05-13 21:57 xpress -> xpress/lib/xpress
+Another example which may exist on several machines (definitely on debian).
+ls -l /usr/bin/X11
+lrwxrwxrwx 1 root root 1 May 27  2006 /usr/bin/X11 -> .
+One may end up, in such a scenario, exploring the same directory again or again. The first example is actually much worse than the second one. Just imagine doing cd xpress. The second example raises the too many levels of symbolic links for lot of commands (not just specific to that directory). Here is a way of detecting both the cases shown above:
+cd /suspected/directory
+find -L ./ -mindepth 15
+The above commands first cd into the directory where such links are suspected to be located. Then it finds all files which are located at a depth of more than 15 from the current directory. '-L' is used to include symlinks.
+
+unlink or rm them

@@ -1,0 +1,24 @@
+From the comment:
+
+update-alternatives --config mpirun
+
+
+Or use the following command to set python3.6 as default:
+
+sudo update-alternatives  --set mpirun /usr/bin/mpirun.openmpi
+
+
+MPI error 
+[DESKTOP-LJK5KPU:05994] 3 more processes have sent help message help-btl-vader.txt / cma-permission-denied
+[DESKTOP-LJK5KPU:05994] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+https://github.com/open-mpi/ompi/issues/4948
+
+likely CMA is failing because the containers may be in different name spaces. The workaround is to disable CMA on the mpirun command line:
+
+add following commands before executing:
+
+mpirun --mca btl_vader_single_copy_mechanism none -np 4 ./src/pcscaex > src/pcscaex.txt
+
+or set
+export OMPI_MCA_btl_vader_single_copy_mechanism=none
+ in bashrc

@@ -1,0 +1,15 @@
+The following is a baseline for installation procedure:
+
+Step 1 – Install necessary libraries
+
+$ sudo apt install liblapack3
+$ sudo apt install liblapack-dev
+$ sudo apt install libopenblas-base
+$ sudo apt install libopenblas-dev
+$ sudo apt install liblapacke-dev
+Step 2 – Install static linking libraries if needed
+
+$ sudo apt install liblapack-dev
+Step 3 – Add the necessary linking flags to gcc/g++
+
+-lm -lblas -llapack -llapacke

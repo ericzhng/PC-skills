@@ -1,0 +1,8 @@
+ar t libabc.a
+nm -s libabc.a
+
+will tell us which files libabc.a was created from, and which symbols - function and variable names - are in the file.
+
+
+ldd 
+       ldd - print shared object dependencies

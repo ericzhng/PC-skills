@@ -1,0 +1,30 @@
+From the comment:
+
+sudo update-alternatives --config python
+Will show you an error:
+
+update-alternatives: error: no alternatives for python3 
+You need to update your update-alternatives , then you will be able to set your default python version.
+
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+Then run :
+
+sudo update-alternatives --config python
+Set python3.6 as default.
+
+Or use the following command to set python3.6 as default:
+
+sudo update-alternatives  --set python /usr/bin/python3.6
+
+
+
+
+The approach you should take is to install pip for Python 3.2.
+
+You do this in the following way:
+
+$ curl -O https://bootstrap.pypa.io/get-pip.py
+$ sudo python get-pip.py
+Then, you can install things for Python 3.2 with pip-3.2, and install things for Python 2-7 with pip-2.7. The pip command will end up pointing to one of these, but I'm not sure which, so you will have to check.
+

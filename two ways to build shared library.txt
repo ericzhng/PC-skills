@@ -1,0 +1,6 @@
+
+Use the following to convert from static to shared libraries
+
+	$(LOADER) -shared $(LOADOPTS) -o liblapack.so -Wl,--whole-archive liblapack.a -Wl,--no-whole-archive
+
+or build directly from objective files to shared library, but remember to add -m64 -fPIC

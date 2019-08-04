@@ -1,0 +1,25 @@
+Sometimes when compiling code linking to another library: error of undefined functions might still appear
+
+more often it is becasue the order of the libraries are not in correct order.
+example
+Link order: main.o info.o scalapack lapack blas -lgfortran
+
+It is often recommended to link the most basic library later.
+
+https://stackoverflow.com/questions/7826448/linking-libraries-with-gcc-order-of-arguments
+
+
+With gcc but also other compilers (e.g. clang), the order of linker command arguments does matter. As a rule of thumb, I would use the following order when composing the linker command:
+
+Object files (*.o)
+Static libraries (*.a)
+Shared libraries (*.so)
+The order of shared libraries does matter as well. If libfoo.so depends on libbar.so, you should list -lfoo before -lbar.
+
+This can get quite complex if you don't know the exact dependencies. The following command on linux could help:
+
+ldd /path/to/libfoo.so
+This lists all shared libs on which libfoo.so depends.
+
+As to your question why this problem popped up with your particular gcc version, it's hard to tell without knowing which libs your application requires. But if you apply the order like I described above, it should work for both older and newer gcc versions.
+
