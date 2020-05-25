@@ -1,0 +1,5 @@
+When doing system upgrading by issuing: sudo apt upgrade, the os might not be completed successfully. This way, you need to issue a command
+
+sudo shutdown -rF now
+
+and then re-upgrade to make it work.
